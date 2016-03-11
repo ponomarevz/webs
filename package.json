@@ -37,7 +37,6 @@
   "dependencies": {
     "grunt-connect-proxy": "^0.1.10",
     "http-route-proxy": "^0.2.1",
-    "node-watch": "^0.3.5",
     "ws": "^1.0.1"
   }
 }

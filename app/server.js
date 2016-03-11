@@ -1,6 +1,6 @@
 var WebSocketServer = new require('ws');
-var watch = require('node-watch');
 var fs = require('fs');
+var path = 'd:/test';
 
 
 
@@ -19,16 +19,13 @@ webSocketServer.on('connection', function(ws) {
 	console.log("новое соединение " + id);
 	
 	var message = {
-		'id': id,
-		'text': 'соеденение установлено'
+		'data': { 'id': id,
+		'text': 'соеденение установлено'}
 	};
-  
-	ws.on('message', function(message) {
-		console.log('получено сообщение ' + message);
-
-		for (var key in clients) {
-			clients[key].send(message);
-		}
+	
+	fs.readdir(path, function(err, items) {
+		message.data.list = items;
+		ws.send(JSON.stringify(message));
 	});
 	
 	ws.on('close', function() {
@@ -36,21 +33,33 @@ webSocketServer.on('connection', function(ws) {
 		delete clients[id];
 	});
 
-	ws.send(JSON.stringify(message));
+	
  
 });
 
 
-watch('d:/11111/', function(filename) {
-  console.log(filename, ' changed.');
-  
-	fs.readdir("/", function(err, items) {
-		console.log(items);
- 
-		for (var i=0; i<items.length; i++) {
-			console.log(items[i]);
-		}
+fs.watch(path, { persistent: true }, function(evt, file) {
+		console.log("directory change");
+		fs.readdir(path, function(err, items) {
+						
+			var message = {
+				'data': { 'list': items}
+			};
+			
+			for (var key in clients) {
+				message.data.id = key;
+				clients[key].send(JSON.stringify(message));
+			}
+			
+		});
+		
 	});
+
+
+
+
   
-});
+	
+  
+
 
