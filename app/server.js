@@ -1,6 +1,36 @@
+'use strict';
 var WebSocketServer = new require('ws');
 var fs = require('fs');
-var path = 'd:/test';
+var path = require("path");
+var pat = 'd:/test';
+
+/*-----------
+	items список содержимого дирректорииж
+	return список содержащий объект описывющий каждый элемент директории
+	- name имя елемента
+	- full полный путь до элемента
+	- type тип (true - файл, false - директория)
+-----------*/
+function createlist(items, pat) {
+		var list = [];
+		items.map(function (file) {
+			var full = path.join(pat, file);
+			var it = {
+				'name': file, 
+				'full': full};
+			return it;
+		}).forEach(function (it) {
+			
+			var stat = fs.statSync(it.full);
+			it.type = stat.isFile();
+			it.size = stat.size;
+			it.bt = stat.birthtime;
+			it.ct = stat.ctime;
+			list.push(it);
+			console.log(stat);
+		});
+		return list;
+	}
 
 
 
@@ -18,15 +48,20 @@ webSocketServer.on('connection', function(ws) {
 	clients[id] = ws;
 	console.log("новое соединение " + id);
 	
-	var message = {
+	var mes = {
 		'data': { 'id': id,
 		'text': 'соеденение установлено'}
 	};
 	
-	fs.readdir(path, function(err, items) {
-		message.data.list = items;
-		ws.send(JSON.stringify(message));
-	});
+	ws.on('message', function(message) {
+		console.log('получено сообщение ' + message);
+		
+		fs.readdir(message, function(err, items) {
+		
+			mes.data.list = createlist(items, message);
+			ws.send(JSON.stringify(mes));
+		});
+    });
 	
 	ws.on('close', function() {
 		console.log('соединение закрыто ' + id);
@@ -38,12 +73,13 @@ webSocketServer.on('connection', function(ws) {
 });
 
 
-fs.watch(path, { persistent: true }, function(evt, file) {
-		console.log("directory change");
-		fs.readdir(path, function(err, items) {
-						
+fs.watch(pat, {'recursive': true}, function(evt, file) {
+		console.log("directory change " + file);
+		fs.readdir(pat, function(err, items) {
+			
+			var list = createlist(items, pat);	
 			var message = {
-				'data': { 'list': items}
+				'data': { 'list': list}
 			};
 			
 			for (var key in clients) {
@@ -55,7 +91,7 @@ fs.watch(path, { persistent: true }, function(evt, file) {
 		
 	});
 
-
+	
 
 
   

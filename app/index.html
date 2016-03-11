@@ -17,7 +17,7 @@
 	
     <!-- endbuild -->
   </head>
-  <body ng-app="App" ng-controller = "main">
+  <body data-ng-app="App" ng-controller = "main">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -28,11 +28,23 @@
 
    
 
-    <div class="main">
+    <div class="container">
 		<h1>ID соеденения {{id}}</h1>
-		<ul>
-			<li ng-repeat="item in list">{{item}}</li>
-		</ul>
+		
+			<div data-ng-click="goTo(item)" class = "fileList row" data-ng-repeat="item in list | orderBy: 'item.type':'false'" data-ng-class="item.type ? 'file' : 'folder'">
+				<div class="col-xs-5"> 
+					<span class="glyphicon glyphicon-folder-open" data-ng-hide="item.type"></span>
+					<span class="glyphicon glyphicon-asterisk" data-ng-show="item.type"></span>
+					<span>{{item.name }} </span>
+				</div> <!-- end div с name -->
+				<div class="col-xs-1"> {{item.size  }} </div>	
+				<div class="col-xs-3"> {{item.bt | date : short : timezone}} </div>	
+				<div class="col-xs-3"> 
+					<span>{{item.ct | date : short : timezone}} </span>
+					<span class="toolMen glyphicon glyphicon-menu-right" data-ng-hide="item.type"></span>
+				</div>	
+			</div> <!-- end row -->
+		
     </div> <!-- end main -->
 
 
@@ -54,10 +66,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
-    <script src="bower_components/angular-endless-scroll/dist/angular-endless-scroll.js"></script>
-    <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
