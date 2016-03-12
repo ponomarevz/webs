@@ -12,4 +12,8 @@ Run `grunt` for building and `grunt serve` for preview.
 Running `grunt test` will run the unit tests with karma.
 
 
+<<<<<<< HEAD
 Для тестирования создайте папку D:/test или измените переменную path в файле server.js
+=======
+Для тестирования создайте папку D:/test или измените переменную path в файле server.js
+>>>>>>> d694b1ef712c4ceba5b2460a16e9ce938713d009
