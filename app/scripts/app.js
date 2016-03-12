@@ -22,5 +22,10 @@
 					}
 				};
 				
+				$scope.fileDelet = function(full) {
+					//----todo на сервере и сервис dele
+					alert("dele full " + full)
+				};
+				
 			});
 	

@@ -29,19 +29,20 @@
    
 
     <div class="container">
-		<h1>ID соеденения {{id}}</h1>
+		<h1 data-ng-cloak>ID соеденения {{id}}</h1>
 		
 			<div data-ng-click="goTo(item)" class = "fileList row" data-ng-repeat="item in list | orderBy: 'item.type':'false'" data-ng-class="item.type ? 'file' : 'folder'">
 				<div class="col-xs-5"> 
-					<span class="glyphicon glyphicon-folder-open" data-ng-hide="item.type"></span>
+					<span style="color:orange" class="glyphicon glyphicon-folder-open" data-ng-hide="item.type"></span>
 					<span class="glyphicon glyphicon-asterisk" data-ng-show="item.type"></span>
-					<span>{{item.name }} </span>
+					<span data-ng-cloak>{{item.name }} </span>
 				</div> <!-- end div с name -->
-				<div class="col-xs-1"> {{item.size  }} </div>	
-				<div class="col-xs-3"> {{item.bt | date : short : timezone}} </div>	
+				<div class="col-xs-1" data-ng-cloak> {{item.size  }} </div>	
+				<div class="col-xs-3" data-ng-cloak> {{item.bt | date : short : timezone}} </div>	
 				<div class="col-xs-3"> 
-					<span>{{item.ct | date : short : timezone}} </span>
+					<span data-ng-cloak>{{item.ct | date : short : timezone}} </span>
 					<span class="toolMen glyphicon glyphicon-menu-right" data-ng-hide="item.type"></span>
+					<span id="red" class="toolMen red glyphicon glyphicon glyphicon-minus" data-ng-show="item.type" data-ng-click="fileDelet(item.full)"></span>
 				</div>	
 			</div> <!-- end row -->
 		

@@ -27,7 +27,7 @@ function createlist(items, pat) {
 			it.bt = stat.birthtime;
 			it.ct = stat.ctime;
 			list.push(it);
-			console.log(stat);
+			//console.log(stat);
 		});
 		return list;
 	}
@@ -73,10 +73,16 @@ webSocketServer.on('connection', function(ws) {
 });
 
 
-fs.watch(pat, {'recursive': true}, function(evt, file) {
-		console.log("directory change " + file);
+fs.watch(pat, function(evt, file) {
+		console.log("directory change " + pat + "   " + file);
+		if (evt) {
+			console.dir(evt);
+				//throw evt;
+		};
 		fs.readdir(pat, function(err, items) {
-			
+			if (err) {
+				throw err;
+			};
 			var list = createlist(items, pat);	
 			var message = {
 				'data': { 'list': list}

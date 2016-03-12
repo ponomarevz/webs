@@ -1,8 +1,11 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak { 
+  display: none; 
+} 
 
 .fileList {
 	font: 14px/1.5 Arial;
 	transition: all 0.7s;
-	padding:8px 0;
+	padding:5px 0;
 	position: relative;
 	border-radius: 3px;
 }
@@ -37,9 +40,15 @@
 	opacity:1;
 }
 .fileList .toolMen {
-	transition: all 0.005s;
 	opacity:0;
 	float:right;
+	color: #fff;
+	transition: all 0.5s;
+}
+
+#red {
+
+	color:red;
 }
 
 .fileList:hover .toolMen {
@@ -47,3 +56,9 @@
 } 
 
 
+ #red:hover {
+	cursor: pointer;
+	transition: all 0.5s;
+	border: 1px solid red;
+	border-radius: 3px;
+}
