@@ -107,7 +107,7 @@ fs.watch(pat, function(evt, file) {
 			};
 			
 			for (var key in clients) {
-				message.data.id = key;
+				message.id = key;
 				clients[key].send(JSON.stringify(message));
 			}
 			
