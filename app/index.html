@@ -31,11 +31,15 @@
     <div class="container">
 		<h1 data-ng-cloak>ID соеденения {{id}}</h1>
 		
-			<div data-ng-click="goTo(item)" class = "fileList row" data-ng-repeat="item in list | orderBy: 'item.type':'false'" data-ng-class="item.type ? 'file' : 'folder'">
+			<div data-ng-click="goTo(item)" class = "fileList row" data-ng-repeat="item in list | orderBy: 'item.type'" data-ng-class="item.type ? 'file' : 'folder'">
 				<div class="col-xs-5"> 
 					<span style="color:orange" class="glyphicon glyphicon-folder-open" data-ng-hide="item.type"></span>
 					<span class="glyphicon glyphicon-asterisk" data-ng-show="item.type"></span>
-					<span data-ng-cloak>{{item.name }} </span>
+					<div class="name" data-ng-cloak data-ng-click="openfile(item)">{{item.name }} </div>
+					<div class="frame" data-ng-show="itemShow(item)">
+						<input class="inp form-control" type="text" ng-model="fullName"></input>
+						<span ng-click="renFile(item.full, fullName)" style="float:right" class="save glyphicon glyphicon-saved"></span>
+					</div> <!-- end frame -->
 				</div> <!-- end div с name -->
 				<div class="col-xs-1" data-ng-cloak> {{item.size  }} </div>	
 				<div class="col-xs-3" data-ng-cloak> {{item.bt | date : short : timezone}} </div>	

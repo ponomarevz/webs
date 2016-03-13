@@ -49,18 +49,38 @@ webSocketServer.on('connection', function(ws) {
 	console.log("новое соединение " + id);
 	
 	var mes = {
-		'data': { 'id': id,
-		'text': 'соеденение установлено'}
+		'id': id,
+		'text': 'соеденение установлено',
+		'data': {}
 	};
 	
 	ws.on('message', function(message) {
 		console.log('получено сообщение ' + message);
+		var message = JSON.parse(message);
+		if (message.type == 'getfolder') {
+			fs.readdir(message.path, function(err, items) {
+				if (err) { throw err; };
+				mes.data.list = createlist(items, message.path);
+				ws.send(JSON.stringify(mes));
+			});
+		} 
+		if (message.type == 'deletefile') {
+			console.log(message.path);
+			fs.exists(message.path, function(exists) {
+				if(exists) {
+					fs.unlink(message.path);
+				} else { console.log('что то не так файл не существует');}
+			});
+		}
+		if (message.type == 'renfile') {
+			console.log(message.newn);
+			fs.exists(message.oldn, function(exists) {
+				if(exists) {
+					fs.rename(message.oldn, message.newn);
+				} else { console.log('что то не так файл не существует');}
+			});
+		}
 		
-		fs.readdir(message, function(err, items) {
-		
-			mes.data.list = createlist(items, message);
-			ws.send(JSON.stringify(mes));
-		});
     });
 	
 	ws.on('close', function() {
@@ -80,9 +100,7 @@ fs.watch(pat, function(evt, file) {
 				//throw evt;
 		};
 		fs.readdir(pat, function(err, items) {
-			if (err) {
-				throw err;
-			};
+			if (err) { throw err; };
 			var list = createlist(items, pat);	
 			var message = {
 				'data': { 'list': list}
@@ -96,12 +114,3 @@ fs.watch(pat, function(evt, file) {
 		});
 		
 	});
-
-	
-
-
-  
-	
-  
-
-

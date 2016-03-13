@@ -5,12 +5,14 @@
 		angular.module('App').
 			controller('main', function(myWebSocServ, $scope) {
 				myWebSocServ.createConection();
+				$scope.it;
 				$scope.id = "none";
+				$scope.fullName;
 				
 				$scope.$on('mesFromServ', function(event, args) {
 								
-						$scope.id = args.data.id;
-						$scope.message = args.data.text;
+						$scope.id = args.id;
+						$scope.message = args.text;
 						$scope.list = args.data.list;
 					
 					$scope.$apply();
@@ -23,9 +25,23 @@
 				};
 				
 				$scope.fileDelet = function(full) {
-					//----todo на сервере и сервис dele
-					alert("dele full " + full)
+					myWebSocServ.deleteFile(full);
 				};
+				
+				$scope.openfile = function(item) {
+					//-------пока просто для демонстрации------------
+					//window.location.href = item.full;
+					$scope.fullName = item.full;
+					$scope.it = item;
+				};
+				
+				$scope.renFile = function(oldn, newn) {
+					myWebSocServ.renFile(oldn, newn);
+				}
+				
+				$scope.itemShow = function(item) {
+					return $scope.it === item ? true : false;
+				}
 				
 			});
 	

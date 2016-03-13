@@ -54,9 +54,38 @@
 .fileList:hover .toolMen {
 	opacity:1;
 } 
+.fileList .name:hover {
+	color:red;
+	cursor:pointer;
+}
+.fileList .name {
+	display:inline;
+}
+
+.fileList .frame {
+	padding:3px;
+	border: 1px solid blue;
+	border-radius: 3px;
+	position:relative;
+}
 
 
- #red:hover {
+.fileList .save:hover {
+	cursor:pointer;
+	transition: all 0.5s;
+	color:blue;
+}
+.fileList .save {
+	position:absolute;
+	right:10px;
+	top:10px;
+	color:#000;
+}
+.fileList .inp {
+	color:#000 !important; 
+}
+
+#red:hover {
 	cursor: pointer;
 	transition: all 0.5s;
 	border: 1px solid red;
