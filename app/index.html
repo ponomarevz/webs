@@ -38,15 +38,15 @@
 					<div class="name" data-ng-cloak data-ng-click="openfile(item)">{{item.name }} </div>
 					<div class="frame" data-ng-show="itemShow(item)">
 						<input class="inp form-control" type="text" ng-model="fullName"></input>
-						<span ng-click="renFile(item.full, fullName)" style="float:right" class="save glyphicon glyphicon-saved"></span>
+						<span ng-click="renFile(item.full, fullName)" style="float:right; background-color: #fff; padding:3px" class="save glyphicon glyphicon-saved"></span>
 					</div> <!-- end frame -->
 				</div> <!-- end div с name -->
 				<div class="col-xs-1" data-ng-cloak> {{item.size  }} </div>	
 				<div class="col-xs-3" data-ng-cloak> {{item.bt | date : short : timezone}} </div>	
-				<div class="col-xs-3"> 
+				<div class="col-xs-3 cont"> 
 					<span data-ng-cloak>{{item.ct | date : short : timezone}} </span>
 					<span class="toolMen glyphicon glyphicon-menu-right" data-ng-hide="item.type"></span>
-					<span id="red" class="toolMen red glyphicon glyphicon glyphicon-minus" data-ng-show="item.type" data-ng-click="fileDelet(item.full)"></span>
+					<span class="toolMen red glyphicon glyphicon glyphicon-minus" data-ng-show="item.type" data-ng-click="fileDelet(item.full)"></span>
 				</div>	
 			</div> <!-- end row -->
 		
